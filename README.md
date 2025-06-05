@@ -2,17 +2,16 @@
 1. 開啟 Colab 與上傳資料	
     進入 Google Colab 前往：https://colab.research.google.com/
    
-3. Colab 上的程式碼區塊（依序執行）
+2. Colab 上的程式碼區塊（依序執行）
 butterfly_dataset 資料夾放在 Google Drive 中，路徑為： /content/drive/MyDrive/LM/Project-Butterfly/butterfly_dataset/
 
 區塊 1：掛載 Google Drive
-指令	from google.colab import drive
+指令	
+from google.colab import drive
 drive.mount('/content/drive')
-結果	Mounted at /content/drive
 
 區塊2：檔案批次處理
 將檔案格式統一轉化成jpg檔案格式、檔案名稱依照img+編號.jpg方式儲存。
-
 指令	
 import os
 from PIL import Image
@@ -55,7 +54,6 @@ for subdir in os.listdir(input_root):
                     print(f"✅ {subdir}/{output_filename}")
             except Exception as e:
                 print(f"❌ 錯誤處理 {filename} in {subdir}: {e}")
-
 
 區塊 3：資料擴充（Data Augmentation）
 蝴蝶圖片，共六種分類，各類別約40-70 張圖。經過資料擴充，每類達200 張，共 1200 張，圖像統一調整為 150x150 像素。
@@ -135,7 +133,6 @@ for class_name in os.listdir(original_data_dir):
     print(f"✅ 類別「{class_name}」處理完成，共 {image_counter} 張圖片。\n")
 
 
-
 區塊 4：引入必要套件並設定路徑引入必要套件並設定路徑
 指令	
 import tensorflow as tf
@@ -151,8 +148,10 @@ IMG_HEIGHT, IMG_WIDTH = 150, 150
 BATCH_SIZE = 32
 EPOCHS = 10
 
+
 區塊 5：讀取與擴增影像資料
-指令	train_datagen = ImageDataGenerator(
+指令	
+train_datagen = ImageDataGenerator(
     rescale=1./255,
     validation_split=0.2,
     rotation_range=20,
@@ -180,7 +179,6 @@ class_names = list(train_generator.class_indices.keys())
 print("類別名稱：", class_names)
 
 
-
 區塊 6：建立並訓練 CNN 模型
 指令	
 model = models.Sequential([
@@ -204,7 +202,6 @@ history = model.fit(
     validation_data=val_generator,
     epochs=EPOCHS
 )
-
 
 
 區塊 7：儲存模型到 Google Drive
