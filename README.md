@@ -1,6 +1,6 @@
 # 113.2FinalReport
 1. 開啟 Colab 與上傳資料	
-    進入 Google Colab👉 前往：https://colab.research.google.com/
+    進入 Google Colab 前往：https://colab.research.google.com/
    
 3. Colab 上的程式碼區塊（依序執行）
 butterfly_dataset 資料夾放在 Google Drive 中，路徑為： /content/drive/MyDrive/LM/Project-Butterfly/butterfly_dataset/
@@ -17,10 +17,10 @@ drive.mount('/content/drive')
 import os
 from PIL import Image
 
-# ✅ 原始圖片資料夾（含子資料夾）
+# 原始圖片資料夾（含子資料夾）
 input_root = '/content/drive/MyDrive/LM/Project-Butterfly/butterfly_dataset/train_image'
 
-# ✅ 輸出資料夾（將重建相同子資料夾結構）
+# 輸出資料夾（將重建相同子資料夾結構）
 output_root = '/content/drive/MyDrive/LM/Project-Butterfly/butterfly_dataset/train_image_jpg'
 
 # 建立輸出主資料夾
@@ -222,7 +222,7 @@ import pandas as pd
 from tensorflow.keras.preprocessing import image
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
-# ✅ 模型與基本設定
+#  模型與基本設定
 model = tf.keras.models.load_model('/content/drive/MyDrive/LM/Project-Butterfly/butterfly_dataset/butterfly_cnn_model.h5')
 class_names = [
     'class1_Byasa impediens febanus_40',
@@ -234,23 +234,23 @@ class_names = [
 ]
 IMG_WIDTH, IMG_HEIGHT = 150, 150
 
-# ✅ 資料夾設定
+#  資料夾設定
 predict_folder = '/content/drive/MyDrive/LM/Project-Butterfly/butterfly_dataset/test_images'
 save_folder = '/content/drive/MyDrive/LM/Project-Butterfly/prediction_results/annotated_images'
 csv_path = '/content/drive/MyDrive/LM/Project-Butterfly/prediction_results/prediction_log_CNN.csv'
 os.makedirs(save_folder, exist_ok=True)
 
-# ✅ 預測與記錄容器
+#  預測與記錄容器
 log_data = {
     'filename': [], 'predicted_class': [], 'true_class': [], 'confidence': [], 'match': []
 }
 y_true = []
 y_pred = []
 
-# ✅ 類別名稱對應表（從 class_names 抽出類別名稱）
+#  類別名稱對應表（從 class_names 抽出類別名稱）
 true_labels = [name.split('_', 1)[1].rsplit('_', 1)[0] for name in class_names]
 
-# ✅ 預測函式
+#  預測函式
 def predict_images_from_folder(folder_path, model, class_names):
     image_files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
@@ -297,15 +297,15 @@ def predict_images_from_folder(folder_path, model, class_names):
 
         print(f"✔️ 圖片: {img_file} → 預測: {predicted_class_name}（信心值: {confidence:.2f}） → 標註：{result_symbol}")
 
-# ✅ 執行預測
+#  執行預測
 predict_images_from_folder(predict_folder, model, class_names)
 
-# ✅ 匯出 CSV
+#  匯出 CSV
 df = pd.DataFrame(log_data)
 df.to_csv(csv_path, index=False)
 print(f"\n📄 預測記錄已儲存：{csv_path}")
 
-# ✅ 混淆矩陣與報告
+#  混淆矩陣與報告
 print("\n📊 混淆矩陣：")
 labels = sorted(list(set(y_true) & set(y_pred)))
 cm = confusion_matrix(y_true, y_pred, labels=labels)
@@ -319,7 +319,7 @@ plt.tight_layout()
 plt.savefig('/content/drive/MyDrive/LM/Project-Butterfly/prediction_results/confusion_matrix.png')
 plt.show()
 
-# ✅ 分類報告
+#  分類報告
 print("\n📋 Classification Report:")
 report = classification_report(y_true, y_pred, labels=labels, zero_division=0)
 print(report)
